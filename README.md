@@ -1,5 +1,7 @@
 # Next BART application
 
+http://nextbart.herokuapp.com/
+
 This application shows departure times for BART stops.  It also finds your current location, shows you the nearest BART stop, and defaults to showing next departure times for that stop.
 The UI is a single page web application that uses jQuery and Knockout.js to display the information and a Web Service to get its data. The backend is a Java Jetty web service that gets its data from a Repository which in turn gets data for BART stop informatoin from api.bart.gov and passes information through business model classes.
 
@@ -15,6 +17,5 @@ More exception and error handling can also be added and exposed to the user for 
 
     
 ## Running the application locally
-First build with: $mvn clean install
-Then run it with: $ java -cp target/classes:target/dependency/* cargen.nextbar.main.Main
+First build with: $mvn clean install then run it with: $ java -cp target/classes:target/dependency/* cargen.nextbar.main.Main
 
