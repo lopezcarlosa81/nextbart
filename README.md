@@ -14,6 +14,7 @@ Stops.java is the root model for the application and represents a public transpo
 ## Technical Notes
 One thing to add in the future is other public transit systems like MUNI.  There could be a MuniStopRepository that returns MUNI specific information.  A Service layer can be added between the Repositories and the web service so that the service can perhaps join stop information from the different repositories and expose a unified list to the web service.
 More exception and error handling can also be added and exposed to the user for times when the backend api may fail (e.g. bart.gov is down).
+Another item that needs to be added is unit testing.
 
     
 ## Running the application locally
