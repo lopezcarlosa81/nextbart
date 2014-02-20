@@ -24,6 +24,7 @@
 	<label class="stop_label" for="stops">BART Stops</label>
 	<select id="stops" data-bind="options: Stops, optionsCaption: 'Select stop...', optionsText: function(item){return item.name}, optionsValue: function(item){return item.code}">
 	</select>
+	<p class="message" data-bind="text: StopsMessage, visible: ShowStopsMessage"></p>
 	<table data-bind="visible: ShowChosenStopDepartures">
  		<thead><tr><th>Going to</th><th>Arrives in</th></tr></thead>
  		<tbody data-bind="foreach: ChosenStopDepartures">

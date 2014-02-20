@@ -18,6 +18,10 @@ cargen.nextbart.ko = (function(){
         }, this);
 		
 		// message
+		this.StopsMessage = ko.observable('');
+		this.ShowStopsMessage = ko.computed(function () {
+            return this.StopsMessage();
+        }, this);
 		this.Message = ko.observable('');
 		this.ShowMessage = ko.computed(function () {
             return this.Message();

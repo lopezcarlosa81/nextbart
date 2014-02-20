@@ -4,9 +4,13 @@ cargen.nextbart.ui = (function(model, service){
 	var _geolocationMessageError = "Could not get your current location."; 
 	var _geolocationMessageGettingLocation = "Getting your current location...";
 	var _geolocationMessageGettingNearestStop = "Getting nearest BART stop...";
-	
+	var _loadingMessage = "Loading...";
 
 	function _stopsOnChange(e){
+		// show loading message and hide existing table
+		model.ChosenStopDepartures([]);
+		model.StopsMessage(_loadingMessage);
+		
 		var selectedStop = $(this).find('option:selected').val();
 		service.getDepartures(selectedStop)
 		.then(function (departures) {
@@ -21,6 +25,7 @@ cargen.nextbart.ui = (function(model, service){
 					departures[i].departureTimesString = departures[i].departureTimes.join(', ');
 				}
 			}
+			model.StopsMessage('');
 			model.ChosenStopDepartures(departures);
 			},function(){
 			// service error
