@@ -69,8 +69,8 @@ cargen.nextbart.ui = (function(model, service){
 								model.NearestStopName(nearestStop.name);
 								model.NearestStopAddress(nearestStop.address.street + " " + nearestStop.address.city + ", " + nearestStop.address.state);
 								// select nearest stop as default from drop down
-								$("#stops").val(nearestStop.code);
-								$("#stops").trigger('change');
+								// set a .5 sec delay to make sure drop down has values
+								setTimeout(function(){$("#stops").val(nearestStop.code).trigger('change');},500);
 								
 							}				
 						},function(){
