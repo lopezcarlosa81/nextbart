@@ -38,9 +38,12 @@ cargen.nextbart.ui = (function(model, service){
 	
 		// apply ko bindings
 		ko.applyBindings(model);
+		
+		// bind stop onclick
+		$("#stops").on('change', _stopsOnChange);
 	
-		// get all stops
-		service.getStops()
+		// get all stops and return promise that stops are loaded
+		var _stopsLoaded = service.getStops()
 			.then(function (data) {
 				// success, load stops
 	            model.Stops(data);
@@ -49,8 +52,6 @@ cargen.nextbart.ui = (function(model, service){
 	            model.Message(_technialErrorMessage);
 	            });	
 		
-		// bind stop onclick
-		$("#stops").on('change', _stopsOnChange);
 	
 		// get users' location
 		// and if available get closest BART stop and departure times
@@ -62,16 +63,14 @@ cargen.nextbart.ui = (function(model, service){
 				if(latitude && longitude){
 					model.Message(_geolocationMessageGettingNearestStop);
 					
-					service.nearestStop(latitude, longitude)
+					// gets nearest stop and returns promise that we have nearest stop
+					var _gotNearestStop = service.nearestStop(latitude, longitude)
 						.then(function (nearestStop) {
 							// success getting nearest stop
 							if(nearestStop){
 								model.NearestStopName(nearestStop.name);
 								model.NearestStopAddress(nearestStop.address.street + " " + nearestStop.address.city + ", " + nearestStop.address.state);
-								// select nearest stop as default from drop down
-								// set a .5 sec delay to make sure drop down has values
-								setTimeout(function(){$("#stops").val(nearestStop.code).trigger('change');},500);
-								
+								return nearestStop.code;					
 							}				
 						},function(){
 							  //service error
@@ -81,6 +80,14 @@ cargen.nextbart.ui = (function(model, service){
 					
 					// clear message
 					model.Message('');
+				
+					// once we have both all stops loaded in drop down and nearest stop, 
+					// pick nearest stop from drop down as default
+					$.when( _stopsLoaded, _gotNearestStop).done(function(a1, a2) {
+						if(a2){
+							$("#stops").val(a2).trigger('change');
+						}
+					});
 				}
 				else{
 					// could not get latitude longitude
